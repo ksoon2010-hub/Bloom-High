@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {duplicateMembers} from '../lib/member-names.ts';
+const rows=[{id:'1',name:'김 민수',month:'2026-10'},{id:'2',name:'김민수',month:'2026-09'},{id:'3',name:'김민수',month:'2026-10'}];
+assert.deepEqual(duplicateMembers(rows,' 김민수 ','2026-10').map(r=>r.id),['1','3']);
+assert.deepEqual(duplicateMembers(rows,'김민수','2026-10','3').map(r=>r.id),['1']);
+assert.deepEqual(duplicateMembers(rows,'   ','2026-10'),[]);
+assert.deepEqual(duplicateMembers(rows,'김민지','2026-10'),[]);
+console.log('Duplicate name checks passed: whitespace, selected month, self-editing, blank and different names.');
+const {memberSuggestions}=await import('../lib/member-names.ts');
+const history=[{id:'a',memberId:'1',month:'2026-08',name:'김민수'},{id:'b',memberId:'1',month:'2026-10',name:'김민수'},{id:'c',memberId:'2',month:'2026-09',name:'김민수'}];
+assert.deepEqual(memberSuggestions(history,'김 민','2026-10').map(r=>r.id),['b','c']);
+assert.equal(memberSuggestions(history,'김민수','2026-08')[0].id,'a');
+assert.deepEqual(memberSuggestions(history,'','2026-10'),[]);
+console.log('Autocomplete checks passed: monthly deduplication, namesakes preserved, preferred-month selection.');

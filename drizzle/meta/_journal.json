@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791384891378,
+      "tag": "0000_previous_frank_castle",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791386378411,
+      "tag": "0001_flippant_lake",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791876385017,
+      "tag": "0002_living_zemo",
+      "breakpoints": true
+    }
+  ]
+}

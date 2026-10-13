@@ -1,0 +1,1 @@
+ALTER TABLE `members` ADD `hope` text DEFAULT '' NOT NULL;

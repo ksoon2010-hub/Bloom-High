@@ -1,0 +1,18 @@
+node_modules/
+.pnpm-store/
+coverage/
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.pem
+*.key
+.agents/
+.codex/
+.wrangler/
+.sites-runtime/
+outputs/
+work/
+# 완성된 assets와 .nojekyll은 게시에 필요하므로 포함합니다.

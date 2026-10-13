@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readMembers,updateMembers,STORAGE_KEY} from '../lib/local-storage.ts';
+const values=new Map();
+const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v)};
+const row={id:'a',memberId:'m',month:'2026-10',name:'예시회원',status:'신규',note:'',hope:'',tenureOverride:null};
+assert.deepEqual(readMembers(storage),[]);
+assert.equal(updateMembers(storage,{rows:[row]}).length,1);
+assert.equal(readMembers(storage)[0].name,'예시회원');
+assert.equal(updateMembers(storage,{rows:[{...row,status:'유지'}]})[0].status,'유지');
+assert.equal(updateMembers(storage,{rows:[{...row,id:'b',month:'2026-11'}]}).length,2);
+assert.equal(updateMembers(storage,{action:'delete',id:'a'})[0].month,'2026-11');
+assert.throws(()=>updateMembers(storage,{rows:[{...row,status:'잘못된 상태'}]}));
+values.set(STORAGE_KEY,'broken');
+assert.throws(()=>updateMembers(storage,{rows:[row]}));
+assert.equal(values.get(STORAGE_KEY),'broken');
+assert.throws(()=>updateMembers({getItem:()=>null,setItem:()=>{throw Error('quota');}},{rows:[row]}),/저장하지 못/);
+console.log('Local storage checks passed.');
