@@ -20,3 +20,7 @@ work/
 # 회원 개인정보 파일은 공개 저장소에 올리지 않습니다.
 *.csv
 *.CSV
+
+# 브라우저에서 내려받은 회원 백업은 공개 저장소에 포함하지 않습니다.
+bloom-high-*backup-*.json
+bloom-high-*backup-*.JSON

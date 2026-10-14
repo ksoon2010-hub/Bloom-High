@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node tests/member-names.mjs && node tests/member-stats.mjs && node tests/member-tenure.mjs && node tests/monthly-summary.mjs && node tests/local-storage.mjs && node tests/member-stopped.mjs && node tests/member-csv.mjs && node tests/retention-analysis.mjs",
+    "test": "node tests/member-names.mjs && node tests/member-stats.mjs && node tests/member-tenure.mjs && node tests/monthly-summary.mjs && node tests/local-storage.mjs && node tests/member-stopped.mjs && node tests/member-csv.mjs && node tests/retention-analysis.mjs && node tests/member-backup.mjs",
     "typecheck": "tsc --noEmit",
     "dev": "node scripts/dev.mjs"
   },

@@ -2,7 +2,7 @@ import {MEMBER_STATUSES} from './member-stats.ts';
 export type Member={id:string;memberId:string;month:string;name:string;status:string;note:string;hope:string;tenureOverride?:number|null};
 export const STORAGE_KEY='bloom-members-v1';
 type StorageLike={getItem(key:string):string|null;setItem(key:string,value:string):void};
-function valid(r:unknown):r is Member {
+export function valid(r:unknown):r is Member {
  if(!r||typeof r!=='object')return false;
  const v=r as Member;
  return typeof v.id==='string'&&typeof v.memberId==='string'&&typeof v.name==='string'&&!!v.name.trim()&&v.name.length<=60&&typeof v.month==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(v.month)&&MEMBER_STATUSES.includes(v.status)&&typeof v.note==='string'&&v.note.length<=500&&typeof v.hope==='string'&&v.hope.length<=1000&&(v.tenureOverride==null||(Number.isInteger(v.tenureOverride)&&v.tenureOverride>=0&&v.tenureOverride<=1200));

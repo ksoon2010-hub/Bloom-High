@@ -2,6 +2,7 @@
 import {useEffect,useState} from 'react';
 import {readMembers,updateMembers,type Member} from '../lib/local-storage';
 import {CsvImport} from './csv-import';
+import {DataBackup} from './data-backup';
 import {StoppedMembers} from './stopped-members';
 import {RetentionAnalysis} from './retention-analysis';
 import {memberTenures} from '../lib/member-tenure';
@@ -45,6 +46,7 @@ export default function Home(){
  {!visible.length&&<div className="empty"><span><Users size={30}/></span><h3>{loading?'회원 기록을 불러오는 중이에요':rows.length?'검색 결과가 없어요':'이 달의 첫 회원을 기록해 보세요'}</h3><p>{rows.length?'검색어나 상태 필터를 바꿔 주세요.':'회원 이름을 추가하거나 지난달 회원을 가져올 수 있어요.'}</p>{!rows.length&&!loading&&<button onClick={()=>open()} disabled={busy}><Plus size={16}/>회원 추가하기</button>}</div>}
  <p className="tenure-hint">2026년 10월 신규회원부터 등록한 달을 1개월로 계산해요. 직접 입력한 숫자를 우선하며, 연속 유지 시 매달 1개월 늘어나요. 중단·전출한 달은 늘어나지 않습니다. ‘—’는 시작 기록이나 직접 입력이 없는 회원입니다.</p><div className="list-footer"><span>{month.replace('-','년 ')}월 · 총 {rows.length}명</span><span><Check size={14}/>변경 내용 자동 저장</span></div></section>
  </>}
+ <DataBackup disabled={busy||loading} onRestored={next=>{setData(next);setError('');setSearch('');setFilter('전체');setNotice('');}}/>
  <footer><Sprout size={16}/>작은 기록이 꾸준한 성장을 만듭니다.<span>Bloom High</span></footer>
  </main></div>
  {modal&&<div className="modal-backdrop" onClick={()=>!busy&&setModal(false)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={e=>e.stopPropagation()} onKeyDown={e=>{if(e.key==='Escape'&&!busy)setModal(false)}}><div className="modal-head"><div><div className="eyebrow">{month} 회원 기록</div><h2 id="modal-title">{editing?'회원 정보 수정':'새 회원 추가'}</h2></div><button aria-label="닫기" disabled={busy} onClick={()=>setModal(false)}><X size={21}/></button></div><form onSubmit={save}><label className="field">회원 이름<input autoFocus required maxLength={60} value={name} onChange={e=>setName(e.target.value)} placeholder="회원 이름을 입력하세요"/></label>{sameName.length>0&&<div className="duplicate-warning" role="status"><strong>이 달에 같은 이름이 {sameName.length}명 있어요.</strong><p>기존 기록: {sameName.map(r=>`${r.name} (${r.status})`).join(', ')}<br/>동명이인이면 이름 뒤에 구분 표시를 붙여 주세요.</p></div>}<label className="field">회원 상태<select value={status} onChange={e=>setStatus(e.target.value)}>{MEMBER_STATUSES.map(s=><option key={s} value={s}>{s==='전입'?'센터 이전 · 들어옴':s==='전출'?'센터 이전 · 나감':s}</option>)}</select></label><label className="field">유지 개월 수 <small>직접 입력 · 선택</small><input type="number" min={0} max={1200} step={1} value={tenureInput} onChange={e=>setTenureInput(e.target.value)} placeholder="예: 12"/></label><p className="field-hint">직접 입력한 숫자가 우선해요. 비워 두면 자동 계산하고, 다음 달에는 1개월 늘어나요.</p><p className="field-hint">유지: 기존 회원 · 신규: 이번 달 등록 · 중단: 수련 중단<br/>센터 이전: 전입(다른 센터에서 들어옴) · 전출(다른 센터로 나감)</p>{error&&<p className="form-error">{error}</p>}<div className="modal-buttons"><button type="button" disabled={busy} onClick={()=>setModal(false)}>취소</button><button className="primary" disabled={busy||loading||!name.trim()}>{busy?'저장 중…':'저장하기'}</button></div></form></section></div>}
