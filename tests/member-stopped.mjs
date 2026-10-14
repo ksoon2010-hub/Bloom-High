@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {stoppedMembers} from '../lib/member-stopped.ts';
+import {updateMembers,STORAGE_KEY} from '../lib/local-storage.ts';
+const row=(id,memberId,month,status)=>({id,memberId,month,status,name:'예시회원',note:'',hope:''});
+const rows=[row('a','1','2025-12','신규'),row('b','1','2026-02','중단'),row('c','2','2026-01','신규'),row('d','2','2026-02','중단'),row('e','3','2026-02','신규'),row('f','3','2026-02','중단'),row('g','4','2026-01','중단'),row('h','1','2026-04','신규'),row('i','1','2026-04','중단')];
+const before=JSON.stringify(rows);const result=stoppedMembers(rows);
+assert.equal(result.find(r=>r.record.id==='b').months,3);
+assert.equal(result.find(r=>r.record.id==='d').months,2);
+assert.equal(result.find(r=>r.record.id==='f').months,1);
+assert.equal(result.find(r=>r.record.id==='g').months,null);
+assert.equal(result.find(r=>r.record.id==='i').registeredMonth,'2026-04');
+assert.equal(result.length,5);assert.equal(JSON.stringify(rows),before);
+let saved=before;const storage={getItem:()=>saved,setItem:(_k,v)=>saved=v};
+assert.throws(()=>updateMembers(storage,{action:'delete',id:'b'}),/보관/);
+assert.equal(saved,before);assert.equal(updateMembers(storage,{action:'delete',id:'a'}).length,8);
+console.log('Stopped member checks passed: 1/2/3 months, year boundary, rejoining, missing registrations, no mutation and deletion protection.');

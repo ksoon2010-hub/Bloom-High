@@ -1,1 +1,23 @@
-{"name":"bloom-members","version":"1.0.0","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","test":"node tests/member-names.mjs && node tests/member-stats.mjs && node tests/member-tenure.mjs && node tests/monthly-summary.mjs && node tests/local-storage.mjs","typecheck":"tsc --noEmit"},"dependencies":{"react":"19.2.6","react-dom":"19.2.6","lucide-react":"^1.31.0"},"devDependencies":{"esbuild":"^0.25.0","typescript":"^5.9.3","@types/react":"^19.2.0","@types/react-dom":"^19.2.0"}}
+{
+  "name": "bloom-members",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node tests/member-names.mjs && node tests/member-stats.mjs && node tests/member-tenure.mjs && node tests/monthly-summary.mjs && node tests/local-storage.mjs && node tests/member-stopped.mjs",
+    "typecheck": "tsc --noEmit",
+    "dev": "node scripts/dev.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "lucide-react": "^1.31.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  }
+}

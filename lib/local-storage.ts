@@ -18,7 +18,10 @@ export function updateMembers(storage:StorageLike,body:unknown):Member[]{
  if(!body||typeof body!=='object')throw new Error('입력을 확인해 주세요.');
  const input=body as {action?:string;id?:string;rows?:unknown};
  let next:Member[];
- if(input.action==='delete'&&typeof input.id==='string')next=current.filter(r=>r.id!==input.id);
+ if(input.action==='delete'&&typeof input.id==='string'){
+  if(current.some(r=>r.id===input.id&&r.status==='중단'))throw new Error('중단 회원 기록은 삭제하지 않고 보관합니다.');
+  next=current.filter(r=>r.id!==input.id);
+ }
  else{
   if(!Array.isArray(input.rows)||!input.rows.length||input.rows.length>500||!input.rows.every(valid))throw new Error('입력을 확인해 주세요.');
   const map=new Map(current.map(r=>[r.id,r]));
