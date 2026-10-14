@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {parseMemberCsv,csvDuplicates,prepareCsvImport} from '../lib/member-csv.ts';
+import {updateMembers,readMembers} from '../lib/local-storage.ts';
+const csv='\uFEFF"기준 월","회원 이름","상태","유지 개월"\r\n"2026-10","예시, ""A""","유지","12개월"\r\n"2026-10","예시 B","중단","—"\r\n"2026-10","예시 B","중단","—"';
+const rows=parseMemberCsv(csv);assert.equal(rows[0].name,'예시, "A"');assert.equal(rows[0].tenureOverride,12);assert.equal(rows[1].tenureOverride,null);
+assert.deepEqual(csvDuplicates(rows,[]),[false,false,true]);
+const first=prepareCsvImport(rows,[],new Set());let raw=JSON.stringify(first);const storage={getItem:()=>raw,setItem:(_k,v)=>raw=v};
+const snapshot=JSON.stringify(first);assert.equal(prepareCsvImport(rows,readMembers(storage),new Set()).length,0);
+const additions=prepareCsvImport(rows,readMembers(storage),new Set([1]));assert.equal(additions.length,1);assert.ok(!first.some(r=>r.id===additions[0].id));
+const next=updateMembers(storage,{rows:additions});assert.equal(next.length,3);assert.equal(JSON.stringify(next.slice(0,2)),snapshot);assert.equal(readMembers(storage).length,3);
+assert.throws(()=>parseMemberCsv('名前,月\na,b'));
+assert.throws(()=>parseMemberCsv('基準月'));
+assert.throws(()=>parseMemberCsv('기준 월,회원 이름,상태,유지 개월\n2026-13,예시,유지,1'));
+assert.throws(()=>parseMemberCsv('기준 월,회원 이름,상태,유지 개월\n2026-10,예시,유지,abc'));
+assert.throws(()=>parseMemberCsv('기준 월,회원 이름,상태,유지 개월\n"unfinished'));
+console.log('CSV checks passed: BOM, quoted comma/quotes, tenure, duplicates, no overwrite, persistence and invalid input.');

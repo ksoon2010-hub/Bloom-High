@@ -41,3 +41,5 @@
 
 .sidebar .nav{width:100%;justify-content:flex-start;margin-bottom:8px;background:transparent}.sidebar .nav.active{background:#e4eadd}.stopped-tabs{margin:0}.mobile-menu{display:none}@media(max-width:900px){.mobile-menu{display:flex;gap:12px;margin-bottom:24px}.mobile-menu button{padding:10px 16px;border:1px solid var(--line);border-radius:10px}.mobile-menu button[aria-pressed="true"]{background:#e4eadd;color:var(--green)}}
 .mobile-menu{display:flex;gap:12px;margin-bottom:24px}.mobile-menu button{padding:10px 16px;border:1px solid var(--line);border-radius:10px}.mobile-menu button[aria-pressed="true"]{background:#e4eadd;color:var(--green)}
+
+.csv-modal{width:min(920px,96vw);max-height:90vh;overflow:auto}.csv-preview{max-height:46vh;overflow:auto;margin:18px 0;border:1px solid var(--line);border-radius:10px}.csv-preview table{width:100%;border-collapse:collapse;white-space:nowrap}.csv-preview th,.csv-preview td{padding:12px;text-align:left;border-bottom:1px solid var(--line)}.csv-preview th{background:#f1f3eb;position:sticky;top:0}.csv-choice{display:flex;align-items:center;gap:8px;font-size:12px}.month-actions{flex-wrap:wrap}

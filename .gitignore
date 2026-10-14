@@ -16,3 +16,7 @@ Thumbs.db
 outputs/
 work/
 # 완성된 assets와 .nojekyll은 게시에 필요하므로 포함합니다.
+
+# 회원 개인정보 파일은 공개 저장소에 올리지 않습니다.
+*.csv
+*.CSV
